@@ -7,7 +7,7 @@ app.secret_key ='231d61aacdc033ea781601c07e4415dd'
 
 # Email configuration
 FROM_EMAIL = "ak6805002@gmail.com"
-FROM_PASSWORD = "lqby vkmp ykfg berh"
+FROM_PASSWORD = "eamd vvqn bhqz dxpn"
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
 account_sid = 'AC7ace71fd257c6ea8db0b126215487662'
