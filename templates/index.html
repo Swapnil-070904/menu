@@ -10,6 +10,7 @@
         <button type="submit" name="action" value="email">Email</button>
 	<button type="submit" name="action" value="call">Call</button>
 	<button type="submit" name="action" value="Sms">Sms</button>
+	<button type="submit" name="action" value="docker">Docker</button>
     </form>
 
     <script>
@@ -29,6 +30,12 @@
                 method: 'POST',
             }).then(response => response.text()).then(data => alert(data));
         }
+	function docker() {
+            fetch('/docker', {
+                method: 'POST',
+            }).then(response => response.text()).then(data => alert(data));
+        }
+
 
     </script>
 </body>
