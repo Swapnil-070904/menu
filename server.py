@@ -29,6 +29,9 @@ def handle_action():
         return render_template('Sms.html')
     elif action == 'docker':
         return render_template('docker.html')
+    elif action == 'wth':
+        return render_template('wth.html')
+
     else:
         return 'Unknown action!'
 
@@ -87,6 +90,18 @@ def Sms():
 
 	)
     return(f"Message sent with SID: {message.sid}")
+@app.route("/wth", methods=['post'])
+def wth():
+    client = Client(account_sid, auth_token)
+
+    message = client.messages.create(
+    from_='whatsapp:+14155238886',
+    body=request.form['body'],
+    to='whatsapp:+91'+request.form['to']
+)
+    return (f"Message sent with SID: {message.sid}")
+
+
 @app.route("/pull", methods=['post'])
 def pull():
     img=request.form['docker']
