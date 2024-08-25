@@ -3,15 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flask Email Form</title>
+    <title>Menu Base</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body{
+            box-sizing: border-box;
+        }
+        .head{
+            position:relative;
+            text-align: center;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            /* transform: translate(45%); */
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gradient-to-r from-gray-900 to-gray-600 text-white flex flex-col  min-h-screen p-4">
+    <span class="head">Hello World , I'm Swapnil</span>
+    <span class="head" style="font-size: 20px;text-decoration: underline;"> Welcome to Menu Base</span>
     <form action="/handle_action" method="POST">
-        <button type="submit" name="action" value="email">Email</button>
-	<button type="submit" name="action" value="call">Call</button>
-	<button type="submit" name="action" value="Sms">Sms</button>
-	<button type="submit" name="action" value="docker">Docker</button>
-	<button type="submit" name="action" value="wth">Whatsapp Mssg</button>
+        <button type="submit" name="action" value="email" style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Email</button>
+
+	<button type="submit" name="action" value="call"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Call</button>
+
+	<button type="submit" name="action" value="Sms"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Sms</button>
+
+	<button type="submit" name="action" value="docker"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Docker</button>
+    
+	<button type="submit" name="action" value="wth"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Whatsapp Mssg</button>
 
     </form>
 
