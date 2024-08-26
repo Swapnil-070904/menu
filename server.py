@@ -1,6 +1,7 @@
 import smtplib,subprocess,re
 from twilio.rest import Client
-from flask import Flask, request, render_template, redirect, url_for, flash
+from geopy.geocoders import Nominatim # type: ignore
+from flask import Flask, request, render_template, redirect, url_for, flash,jsonify
 
 app = Flask(__name__)
 app.secret_key ='231d61aacdc033ea781601c07e4415dd'
@@ -31,6 +32,8 @@ def handle_action():
         return render_template('docker.html')
     elif action == 'wth':
         return render_template('wth.html')
+    elif action == 'geocord':
+        return render_template('geocord.html')
 
     else:
         return 'Unknown action!'
@@ -101,7 +104,25 @@ def wth():
 )
     return (f"Message sent with SID: {message.sid}")
 
+@app.route('/get_geo_coordinates', methods=['POST'])
+def get_geo_coordinates():
+    address = request.form.get('address')
 
+    geolocator = Nominatim(user_agent="geoapi")
+    location = geolocator.geocode(address)
+
+    if location:
+        coordinates = {
+            'latitude': location.latitude,
+            'longitude': location.longitude,
+            'address': location.address
+        }
+    else:
+        coordinates = {'error': 'Location not found'}
+
+    return jsonify(coordinates)
+
+# ------------------------------------------------------DOCKER----------------------------------------------
 @app.route("/pull", methods=['post'])
 def pull():
     img=request.form['docker']
