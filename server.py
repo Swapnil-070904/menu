@@ -1,7 +1,9 @@
+from gtts import gTTS # type: ignore
+import io
 import smtplib,subprocess,re
 from twilio.rest import Client
 from geopy.geocoders import Nominatim # type: ignore
-from flask import Flask, request, render_template, redirect, url_for, flash,jsonify
+from flask import Flask, request, render_template, redirect, url_for, flash,jsonify,send_file
 
 app = Flask(__name__)
 app.secret_key ='231d61aacdc033ea781601c07e4415dd'
@@ -34,6 +36,8 @@ def handle_action():
         return render_template('wth.html')
     elif action == 'geocord':
         return render_template('geocord.html')
+    elif action == 'tta':
+        return render_template('texttoaudio.html')
 
     else:
         return 'Unknown action!'
@@ -121,6 +125,26 @@ def get_geo_coordinates():
         coordinates = {'error': 'Location not found'}
 
     return jsonify(coordinates)
+
+@app.route('/stringtoaudio', methods=['POST'])
+def string_to_audio():
+    data = request.json
+    text = data.get('text', '')
+    if text:
+        audio_buffer = io.BytesIO()
+        tts = gTTS(text, lang='en')
+        tts.write_to_fp(audio_buffer)
+        audio_buffer.seek(0)
+        
+        return send_file(
+            audio_buffer,
+            as_attachment=True,
+            mimetype='audio/mpeg',
+            download_name='output.mp3'
+        )
+    else:
+        return jsonify({'error': 'No text provided'}), 400
+
 
 # ------------------------------------------------------DOCKER----------------------------------------------
 @app.route("/pull", methods=['post'])
