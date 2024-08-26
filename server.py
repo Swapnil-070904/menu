@@ -1,6 +1,7 @@
 from gtts import gTTS
 import pandas as pd
-import io,os
+import io,os,random
+from PIL import Image, ImageDraw
 import smtplib,subprocess,re
 from twilio.rest import Client
 from geopy.geocoders import Nominatim 
@@ -41,6 +42,8 @@ def handle_action():
         return render_template('texttoaudio.html')
     elif action == 'data':
         return render_template('dataprocess.html')
+    elif action == 'random_image':
+        return render_template('random_image.html')
     else:
         return 'Unknown action!'
 # --------------------------------------------------------------------------------------------------------------------
@@ -170,6 +173,50 @@ def process_data():
         return jsonify({'status': 'success', 'summary': summary})
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)})
+# --------------------------------------------------------------------------------------------------------------------------------
+@app.route('/generate', methods=['POST'])
+def generate_image():
+    try:
+        width = int(request.form['width'])
+        height = int(request.form['height'])
+
+        # Create an image with random colors
+        image = Image.new('RGB', (width, height), (255, 255, 255))
+        draw = ImageDraw.Draw(image)
+        
+        for x in range(width):
+            for y in range(height):
+                draw.point((x, y), (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)))
+
+        # Save the image to a BytesIO object
+        img_io = io.BytesIO()
+        image.save(img_io, 'PNG')
+        img_io.seek(0)
+
+        return send_file(img_io, mimetype='image/png')
+    except Exception as e:
+        return f"Error generating image: {str(e)}", 400@app.route('/generate', methods=['POST'])
+def generate_image():
+    try:
+        width = int(request.form['width'])
+        height = int(request.form['height'])
+
+        # Create an image with random colors
+        image = Image.new('RGB', (width, height), (255, 255, 255))
+        draw = ImageDraw.Draw(image)
+        
+        for x in range(width):
+            for y in range(height):
+                draw.point((x, y), (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)))
+
+        # Save the image to a BytesIO object
+        img_io = io.BytesIO()
+        image.save(img_io, 'PNG')
+        img_io.seek(0)
+
+        return send_file(img_io, mimetype='image/png')
+    except Exception as e:
+        return f"Error generating image: {str(e)}", 400
 
 # ------------------------------------------------------DOCKER----------------------------------------------
 @app.route("/pull", methods=['post'])
