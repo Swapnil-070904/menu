@@ -1,20 +1,21 @@
-from gtts import gTTS # type: ignore
-import io
+from gtts import gTTS
+import pandas as pd
+import io,os
 import smtplib,subprocess,re
 from twilio.rest import Client
-from geopy.geocoders import Nominatim # type: ignore
+from geopy.geocoders import Nominatim 
 from flask import Flask, request, render_template, redirect, url_for, flash,jsonify,send_file
 
 app = Flask(__name__)
 app.secret_key ='231d61aacdc033ea781601c07e4415dd'
 
 # Email configuration
-FROM_EMAIL = "ak6805002@gmail.com"
-FROM_PASSWORD = "eamd vvqn bhqz dxpn"
+FROM_EMAIL =os.getenv('email')
+FROM_PASSWORD = os.getenv('app_pwd')
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
-account_sid = 'AC7ace71fd257c6ea8db0b126215487662'
-auth_token = '9871251fb007510d65ff52afe6027b66'
+account_sid = os.getenv('acc_sid')
+auth_token = os.getenv('auth_token')
 number = '+15739282798'
 @app.route('/')
 def index():
@@ -38,10 +39,11 @@ def handle_action():
         return render_template('geocord.html')
     elif action == 'tta':
         return render_template('texttoaudio.html')
-
+    elif action == 'data':
+        return render_template('dataprocess.html')
     else:
         return 'Unknown action!'
-
+# --------------------------------------------------------------------------------------------------------------------
 @app.route('/send_email', methods=['POST'])
 def send_email():
     to_email = request.form['to']
@@ -67,11 +69,12 @@ Subject: {subject}
         flash(f'Failed to send email: {e}')
     
     return render_template('form.html')
+# ------------------------------------------------------------------------------------------------------------------------
 @app.route("/call", methods=['post'])
 def call():
-    no= request.form['to']
-    account_sid = "AC7ace71fd257c6ea8db0b126215487662"
-    auth_token = "9871251fb007510d65ff52afe6027b66"
+    no= '+91'+ request.form['to']
+    account_sid = os.getenv('acc_sid')
+    auth_token = os.getenv('auth_token')
     client = Client(account_sid, auth_token)
     call = client.calls.create(
             from_=number,
@@ -83,6 +86,7 @@ def call():
         )
 
     return(call.sid)
+# ------------------------------------------------------------------------------------------------------------------------------
 @app.route("/Sms", methods=['post'])
 def Sms():
     msg=request.form['msg']
@@ -97,6 +101,7 @@ def Sms():
 
 	)
     return(f"Message sent with SID: {message.sid}")
+# ------------------------------------------------------------------------------------------------------------------------------
 @app.route("/wth", methods=['post'])
 def wth():
     client = Client(account_sid, auth_token)
@@ -107,7 +112,7 @@ def wth():
     to='whatsapp:+91'+request.form['to']
 )
     return (f"Message sent with SID: {message.sid}")
-
+# -----------------------------------------------------------------------------------------------------------------------------------
 @app.route('/get_geo_coordinates', methods=['POST'])
 def get_geo_coordinates():
     address = request.form.get('address')
@@ -125,7 +130,7 @@ def get_geo_coordinates():
         coordinates = {'error': 'Location not found'}
 
     return jsonify(coordinates)
-
+# --------------------------------------------------------------------------------------------------------------------------------
 @app.route('/stringtoaudio', methods=['POST'])
 def string_to_audio():
     data = request.json
@@ -144,7 +149,27 @@ def string_to_audio():
         )
     else:
         return jsonify({'error': 'No text provided'}), 400
+# ----------------------------------------------------------------------------------------------------------------------------
+@app.route('/process_data', methods=['POST'])
+def process_data():
+    file = request.files['file']
+    if not file:
+        return jsonify({'status': 'error', 'message': 'No file uploaded'})
 
+    try:
+        # Read the file into a DataFrame
+        df = pd.read_csv(file)
+        
+        # Perform data processing
+        summary = {
+            'mean': df.mean().to_dict(),
+            'median': df.median().to_dict(),
+            'std_dev': df.std().to_dict()
+        }
+        
+        return jsonify({'status': 'success', 'summary': summary})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)})
 
 # ------------------------------------------------------DOCKER----------------------------------------------
 @app.route("/pull", methods=['post'])
