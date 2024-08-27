@@ -1,7 +1,9 @@
+import boto3
+import base64
 from gtts import gTTS
-import pandas as pd
-import io,os,random
-from PIL import Image, ImageDraw
+import pandas as pd,numpy as np
+import io,os,random,cv2
+from PIL import Image, ImageDraw,ImageFilter
 import smtplib,subprocess,re
 from twilio.rest import Client
 from geopy.geocoders import Nominatim 
@@ -44,6 +46,10 @@ def handle_action():
         return render_template('dataprocess.html')
     elif action == 'random_image':
         return render_template('random_image.html')
+    elif action == 'image_filter':
+        return render_template('image_filter.html')
+    elif action == 'live':
+        return render_template('livestream.html')
     else:
         return 'Unknown action!'
 # --------------------------------------------------------------------------------------------------------------------
@@ -217,6 +223,67 @@ def generate_image():
         return send_file(img_io, mimetype='image/png')
     except Exception as e:
         return f"Error generating image: {str(e)}", 400
+# ------------------------------------------------------------------------------------------------------------------------
+def apply_filter(image, filter_type):
+    if filter_type == 'grayscale':
+        return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    elif filter_type == 'blur':
+        return cv2.GaussianBlur(image, (15, 15), 0)
+    elif filter_type == 'edge':
+        return cv2.Canny(image, 100, 200)
+    else:
+        return image
+
+@app.route('/filter', methods=['POST'])
+def apply_filter_route():
+    file = request.files['file']
+    filter_type = request.form.get('filter')
+
+    if not file:
+        return jsonify({'status': 'error', 'message': 'No file uploaded'})
+
+    try:
+        # Read the image file
+        img = Image.open(file.stream)
+        img = np.array(img)
+
+        # Apply the chosen filter
+        filtered_img = apply_filter(img, filter_type)
+
+        # Convert back to PIL Image
+        filtered_pil = Image.fromarray(filtered_img)
+        buffer = io.BytesIO()
+        filtered_pil.save(buffer, format="PNG")
+        img_data = buffer.getvalue()
+
+        return jsonify({
+            'status': 'success',
+            'filtered_image': 'data:image/png;base64,' + base64.b64encode(img_data).decode('utf-8')
+        })
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)})
+    # ---------------------------------------------------------------------------------------------------------------------------
+# Create an AWS Rekognition client
+rekognition = boto3.client('rekognition',region_name='ap-south-1')
+
+@app.route('/liveStream', methods=['POST'])
+def liveStream():
+    # Receive the live stream from the frontend
+    stream = request.get_json()
+
+    # Process the live stream using OpenCV
+    cap = cv2.VideoCapture(stream)
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
+
+        # Analyze the live stream using AWS Rekognition
+        response = rekognition.detect_labels(Image={'Bytes': frame.tobytes()})
+        labels = response['Labels']
+
+        # Return the detected labels to the frontend
+        return jsonify({'labels': [label['Name'] for label in labels]})
 
 # ------------------------------------------------------DOCKER----------------------------------------------
 @app.route("/pull", methods=['post'])

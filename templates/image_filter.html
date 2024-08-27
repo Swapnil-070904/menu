@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Filter Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        h1 {
+            color: #4CAF50;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input[type="file"], select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        h2 {
+            margin-top: 30px;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        #filteredImage {
+            margin-top: 20px;
+            max-width: 100%;
+            border: 5px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            background-color: #e8f5e9;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Apply Filters to Image</h1>
+        <div class="form-group">
+            <label for="file">Upload Image:</label>
+            <input type="file" id="file" accept="image/*">
+        </div>
+        <div class="form-group">
+            <label for="filter">Choose Filter:</label>
+            <select id="filter">
+                <option value="grayscale">Grayscale</option>
+                <option value="blur">Blur</option>
+                <option value="edge">Edge Detection</option>
+            </select>
+        </div>
+        <button class="btn" onclick="applyFilter()">Apply Filter</button>
+        <div class="response" id="response"></div>
+    </div>
+
+    <script>
+        function applyFilter() {
+            const fileInput = document.getElementById('file');
+            const filterType = document.getElementById('filter').value;
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert('Please upload an image file.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('filter', filterType);
+
+            fetch('http://127.0.0.1:5000/apply_filter', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+         
+                    const resultHTML = `
+                        <h2>Filtered Image</h2>
+                        <img src="${data.filtered_image}" alt="Filtered Image">
+                    `;
+                    document.getElementById('response').innerHTML = resultHTML;
+                } else {
+                    document.getElementById('response').innerText = 'Error: ' + data.message;
+                }
+            })
+            .catch(error => {
+                document.getElementById('response').innerText = 'An error occurred: ' + error.message;
+            });
+        }
+    </script>
+</body>
+</html>
