@@ -90,17 +90,8 @@
         <div class="form-group">
             <label for="filter">Choose Filter:</label>
             <select id="filter">
-                <option value="grayscale">Grayscale</option>
-                <option value="blur">Blur</option>
-                <option value="edge">Edge Detection</option>
-                <option value="sepia">Sepia</option>
-                <option value="sharpen">Sharpen</option>
-                <option value="contrast">Contrast</option>
-                <option value="brightness">Brightness</option>
-                <option value="edge_enhance">Edge Enhance</option>
-                <option value="emboss">Emboss</option>
-                <option value="posterize">Posterize</option>
-                <option value="invert">Invert</option>
+                <option value="sunglasses">Sunglasses</option>
+                <option value="stars">Stars</option>
             </select>
         </div>
         <button class="btn" onclick="applyFilter()">Apply Filter</button>
@@ -122,7 +113,7 @@
             formData.append('file', file);
             formData.append('filter', filterType);
 
-            fetch('/filter', {
+            fetch('/apply_special_filter', {
                 method: 'POST',
                 body: formData,
             })

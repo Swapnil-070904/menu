@@ -1,9 +1,8 @@
-import boto3
 import base64
 from gtts import gTTS
 import pandas as pd,numpy as np
 import io,os,random,cv2
-from PIL import Image, ImageDraw,ImageFilter
+from PIL import Image, ImageDraw,ImageFilter,ImageEnhance
 import smtplib,subprocess,re
 from twilio.rest import Client
 from geopy.geocoders import Nominatim 
@@ -52,9 +51,11 @@ def handle_action():
         return render_template('livestream.html')
     elif action == 'clickpic':
         return render_template('clickpic.html')
+    elif action == 'special_filters':
+        return render_template('special_filter.html')
     else:
         return 'Unknown action!'
-# --------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------mail---------------------------------------------------------------
 @app.route('/send_email', methods=['POST'])
 def send_email():
     to_email = request.form['to']
@@ -80,7 +81,7 @@ Subject: {subject}
         flash(f'Failed to send email: {e}')
     
     return render_template('form.html')
-# ------------------------------------------------------------------------------------------------------------------------
+# -------------------------------------------------------call-----------------------------------------------------------------
 @app.route("/call", methods=['post'])
 def call():
     no= '+91'+ request.form['to']
@@ -97,11 +98,11 @@ def call():
         )
 
     return(call.sid)
-# ------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------sms----------------------------------------------------------------------
 @app.route("/Sms", methods=['post'])
 def Sms():
     msg=request.form['msg']
-    no=request.form['to']
+    no="+91"+request.form['to']
     client = Client(account_sid, auth_token)
     message = client.messages.create(
     body=msg,
@@ -112,7 +113,7 @@ def Sms():
 
 	)
     return(f"Message sent with SID: {message.sid}")
-# ------------------------------------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------whatsapp-------------------------------------------------------------------
 @app.route("/wth", methods=['post'])
 def wth():
     client = Client(account_sid, auth_token)
@@ -123,7 +124,7 @@ def wth():
     to='whatsapp:+91'+request.form['to']
 )
     return (f"Message sent with SID: {message.sid}")
-# -----------------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------cords--------------------------------------------------------------------
 @app.route('/get_geo_coordinates', methods=['POST'])
 def get_geo_coordinates():
     address = request.form.get('address')
@@ -141,8 +142,8 @@ def get_geo_coordinates():
         coordinates = {'error': 'Location not found'}
 
     return jsonify(coordinates)
-# --------------------------------------------------------------------------------------------------------------------------------
-@app.route('/stringtoaudio', methods=['POST'])
+# --------------------------------------------------------tts--------------------------------------------------------------------
+@app.route('/tts', methods=['POST'])
 def string_to_audio():
     data = request.json
     text = data.get('text', '')
@@ -160,7 +161,7 @@ def string_to_audio():
         )
     else:
         return jsonify({'error': 'No text provided'}), 400
-# ----------------------------------------------------------------------------------------------------------------------------
+# ---------------------------------------------process data------------------------------------------------------------------------
 @app.route('/process_data', methods=['POST'])
 def process_data():
     file = request.files['file']
@@ -181,7 +182,7 @@ def process_data():
         return jsonify({'status': 'success', 'summary': summary})
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)})
-# --------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------random image---------------------------------------------------------------------
 @app.route('/generate', methods=['POST'])
 def generate_image():
     try:
@@ -225,19 +226,55 @@ def generate_image():
         return send_file(img_io, mimetype='image/png')
     except Exception as e:
         return f"Error generating image: {str(e)}", 400
-# ------------------------------------------------------------------------------------------------------------------------
-def apply_filter(image, filter_type):
+# -------------------------------------------------------------filter-----------------------------------------------------------
+def filters(image, filter_type):
     if filter_type == 'grayscale':
         return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     elif filter_type == 'blur':
         return cv2.GaussianBlur(image, (15, 15), 0)
     elif filter_type == 'edge':
         return cv2.Canny(image, 100, 200)
+    elif filter_type == 'sepia':
+        sepia_filter = np.array([[0.272, 0.534, 0.131],
+                                 [0.349, 0.686, 0.168],
+                                 [0.393, 0.769, 0.189]])
+        return cv2.transform(image, sepia_filter)
+    elif filter_type == 'sharpen':
+        kernel = np.array([[0, -1, 0],
+                           [-1, 5, -1],
+                           [0, -1, 0]])
+        return cv2.filter2D(image, -1, kernel)
+    elif filter_type == 'contrast':
+        pil_image = Image.fromarray(image)
+        enhancer = ImageEnhance.Contrast(pil_image)
+        enhanced_image = enhancer.enhance(2)  # Increase contrast
+        return np.array(enhanced_image)
+    elif filter_type == 'brightness':
+        pil_image = Image.fromarray(image)
+        enhancer = ImageEnhance.Brightness(pil_image)
+        enhanced_image = enhancer.enhance(1.5)  # Increase brightness
+        return np.array(enhanced_image)
+    elif filter_type == 'edge_enhance':
+        pil_image = Image.fromarray(image)
+        enhanced_image = pil_image.filter(ImageFilter.EDGE_ENHANCE)
+        return np.array(enhanced_image)
+    elif filter_type == 'emboss':
+        pil_image = Image.fromarray(image)
+        enhanced_image = pil_image.filter(ImageFilter.EMBOSS)
+        return np.array(enhanced_image)
+    elif filter_type == 'posterize':
+        pil_image = Image.fromarray(image)
+        enhanced_image = pil_image.filter(ImageFilter.POSTERIZE)
+        return np.array(enhanced_image)
+    elif filter_type == 'invert':
+        pil_image = Image.fromarray(image)
+        enhanced_image = Image.eval(pil_image, lambda x: 255 - x)
+        return np.array(enhanced_image)
     else:
         return image
 
 @app.route('/filter', methods=['POST'])
-def apply_filter_route():
+def apply_filter():
     file = request.files['file']
     filter_type = request.form.get('filter')
 
@@ -250,7 +287,7 @@ def apply_filter_route():
         img = np.array(img)
 
         # Apply the chosen filter
-        filtered_img = apply_filter(img, filter_type)
+        filtered_img = filters(img, filter_type)
 
         # Convert back to PIL Image
         filtered_pil = Image.fromarray(filtered_img)
@@ -264,7 +301,56 @@ def apply_filter_route():
         })
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)})
-    # ---------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------special filters-------------------------------------------------------------
+def overlay_image(background, overlay_path, position):
+    overlay = Image.open(overlay_path).convert("RGBA")
+    background.paste(overlay, position, overlay)
+    return background
+
+def special_filters(image, filter_type):
+    image = Image.fromarray(image)
+    if filter_type == 'sunglasses':
+        # Ensure the path to the sunglasses image is correct
+        return np.array(overlay_image(image, 'sunglasses.png', (50, 50)))
+    elif filter_type == 'stars':
+        img_draw = ImageDraw.Draw(image)
+        for _ in range(100):  # Number of stars
+            x = np.random.randint(0, image.width)
+            y = np.random.randint(0, image.height)
+            img_draw.text((x, y), '*', fill=(0,0,0,0))
+        return np.array(image)
+    else:
+        return np.array(image)
+
+@app.route('/apply_special_filter', methods=['POST'])
+def apply_special_filter():
+    file = request.files['file']
+    filter_type = request.form.get('filter')
+
+    if not file:
+        return jsonify({'status': 'error', 'message': 'No file uploaded'})
+
+    try:
+        # Read the image file
+        img = Image.open(file.stream)
+        img = np.array(img)
+
+        # Apply the chosen filter
+        filtered_img = special_filters(img, filter_type)
+
+        # Convert back to PIL Image
+        filtered_pil = Image.fromarray(filtered_img)
+        buffer = io.BytesIO()
+        filtered_pil.save(buffer, format="PNG")
+        img_data = buffer.getvalue()
+
+        return jsonify({
+            'status': 'success',
+            'filtered_image': 'data:image/png;base64,' + base64.b64encode(img_data).decode('utf-8')
+        })
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)})
+    # ---------------------------------------------------------livestream---------------------------------------------------------
 @app.route('/liveStream', methods=['POST'])
 def liveStream():
     stream = request.get_json()
@@ -275,7 +361,7 @@ def liveStream():
             break;
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         return jsonify({'status': 'frame processed'})
-# ---------------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------capture and save--------------------------------------------------------------
 @app.route('/capture', methods=['POST'])
 def capture_photo():
     # Get the image data from the request
@@ -326,6 +412,6 @@ def get_images():
         return("image downloded failed")
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port='5000')
+    app.run()
 
                                                                                                        
