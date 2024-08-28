@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw,ImageFilter
 import smtplib,subprocess,re
 from twilio.rest import Client
 from geopy.geocoders import Nominatim 
-from flask import Flask, request, render_template, redirect, url_for, flash,jsonify,send_file
+from flask import Flask, request, render_template, redirect, send_from_directory, url_for, flash,jsonify,send_file
 
 app = Flask(__name__)
 app.secret_key ='231d61aacdc033ea781601c07e4415dd'
@@ -50,6 +50,8 @@ def handle_action():
         return render_template('image_filter.html')
     elif action == 'live':
         return render_template('livestream.html')
+    elif action == 'clickpic':
+        return render_template('clickpic.html')
     else:
         return 'Unknown action!'
 # --------------------------------------------------------------------------------------------------------------------
@@ -263,28 +265,45 @@ def apply_filter_route():
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)})
     # ---------------------------------------------------------------------------------------------------------------------------
-# Create an AWS Rekognition client
-rekognition = boto3.client('rekognition',region_name='ap-south-1')
-
 @app.route('/liveStream', methods=['POST'])
 def liveStream():
-    # Receive the live stream from the frontend
     stream = request.get_json()
-
-    # Process the live stream using OpenCV
     cap = cv2.VideoCapture(stream)
     while True:
         ret, frame = cap.read()
         if not ret:
-            break
+            break;
+        gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        return jsonify({'status': 'frame processed'})
+# ---------------------------------------------------------------------------------------------------------------------------------
+@app.route('/capture', methods=['POST'])
+def capture_photo():
+    # Get the image data from the request
+    data = request.get_json()
+    image_data = data['image'].split(',')[1]  # Remove the data URL prefix
 
-        # Analyze the live stream using AWS Rekognition
-        response = rekognition.detect_labels(Image={'Bytes': frame.tobytes()})
-        labels = response['Labels']
+    # Decode the base64 image data
+    image_bytes = base64.b64decode(image_data)
+    image_array = np.frombuffer(image_bytes, dtype=np.uint8)
+    frame = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
 
-        # Return the detected labels to the frontend
-        return jsonify({'labels': [label['Name'] for label in labels]})
+    # Set a fixed filename
+    filename = "captured_photo.png"
+    file_path = os.path.join('images', filename)
 
+    # Save the image to the specified directory
+    if not os.path.exists('images'):
+        os.makedirs('images')
+
+    if cv2.imwrite(file_path, frame):
+        return jsonify({'message': 'Photo captured and saved successfully', 'file_path': f'/images/{filename}'})
+    else:
+        return jsonify({'error': 'Failed to save image'})
+
+# Serve the image file from the images directory
+@app.route('/images/<filename>')
+def get_image(filename):
+    return send_from_directory('images', filename)
 # ------------------------------------------------------DOCKER----------------------------------------------
 @app.route("/pull", methods=['post'])
 def pull():
