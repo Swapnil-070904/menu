@@ -29,7 +29,7 @@
 
 	<button type="submit" name="action" value="Sms"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Sms</button>
 
-	<button type="submit" name="action" value="docker"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Docker</button>
+	<!-- <button type="submit" name="action" value="docker"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Docker</button> -->
     
 	<button type="submit" name="action" value="wth"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Whatsapp Mssg</button>
 
@@ -73,11 +73,11 @@
                 method: 'POST',
             }).then(response => response.text()).then(data => alert(data));
         }
-	function docker() {
-            fetch('/docker', {
-                method: 'POST',
-            }).then(response => response.text()).then(data => alert(data));
-        }
+	// function docker() {
+    //         fetch('/docker', {
+    //             method: 'POST',
+    //         }).then(response => response.text()).then(data => alert(data));
+    //     }
 	 function wth() {
             fetch('/wth', {
                 method: 'POST',

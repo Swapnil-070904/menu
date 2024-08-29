@@ -437,25 +437,25 @@ def get_docker_metrics():
     }
     return jsonify(metrics)
 # ------------------------------------------------------DOCKER----------------------------------------------
-@app.route("/pull", methods=['post'])
-def pull():
-    img=request.form['docker']
-    cmd=f'docker pull {img}'
-    status,output = subprocess.getstatusoutput(cmd)
-    if status == 0:
-        image_name = output.split('/')[-1]
-        return image_name
-    else:
-        return("image downloded failed")
+# @app.route("/pull", methods=['post'])
+# def pull():
+#     img=request.form['docker']
+#     cmd=f'docker pull {img}'
+#     status,output = subprocess.getstatusoutput(cmd)
+#     if status == 0:
+#         image_name = output.split('/')[-1]
+#         return image_name
+#     else:
+#         return("image downloded failed")
 
-@app.route("/images", methods=['post'])
-def get_images():
-    status,output = subprocess.getstatusoutput('docker images')
-    if status == 0:
-        img = re.sub(r'(SIZE|MB|kB)', r'\1\n', output)
-        return img
-    else:
-        return("image downloded failed")
+# @app.route("/images", methods=['post'])
+# def get_images():
+#     status,output = subprocess.getstatusoutput('docker images')
+#     if status == 0:
+#         img = re.sub(r'(SIZE|MB|kB)', r'\1\n', output)
+#         return img
+#     else:
+#         return("image downloded failed")
 
 if __name__ == '__main__':
     app.run()
