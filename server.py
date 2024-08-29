@@ -6,7 +6,10 @@ from PIL import Image, ImageDraw,ImageFilter,ImageEnhance
 import smtplib,subprocess,re
 from twilio.rest import Client
 from geopy.geocoders import Nominatim 
-from flask import Flask, request, render_template, redirect, send_from_directory, url_for, flash,jsonify,send_file
+from flask import Flask, request, render_template,send_from_directory, flash,jsonify,send_file
+from sklearn.datasets import fetch_california_housing
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
 
 app = Flask(__name__)
 app.secret_key ='231d61aacdc033ea781601c07e4415dd'
@@ -28,7 +31,7 @@ def handle_action():
     action = request.form.get('action')
 
     if action == 'email':
-        return render_template('form.html')
+        return render_template('email.html')
     elif action == 'call':
         return render_template('call.html')
     elif action == 'Sms':
@@ -53,8 +56,14 @@ def handle_action():
         return render_template('clickpic.html')
     elif action == 'special_filters':
         return render_template('special_filter.html')
+    elif action == 'ml_model':
+        return render_template('ml_model.html')
+    elif action == 'docker_metrics':
+        return render_template('docker_metrics.html')
+    elif action == 'micaccess':
+        return render_template('micaccess.html')
     else:
-        return 'Unknown action!'
+        return render_template('index.html')
 # -----------------------------------------------------mail---------------------------------------------------------------
 @app.route('/send_email', methods=['POST'])
 def send_email():
@@ -361,7 +370,7 @@ def liveStream():
             break;
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         return jsonify({'status': 'frame processed'})
-# ----------------------------------------------------capture and save--------------------------------------------------------------
+# ----------------------------------------capture and save--------------------------------------------------------------
 @app.route('/capture', methods=['POST'])
 def capture_photo():
     # Get the image data from the request
@@ -390,6 +399,43 @@ def capture_photo():
 @app.route('/images/<filename>')
 def get_image(filename):
     return send_from_directory('images', filename)
+# -------------------------------------------ml model---------------------------------------------------------------------
+housing = fetch_california_housing()
+X = housing.data[:, [0, 3]]  # Only use 'MedInc' and 'AveRooms'
+y = housing.target
+
+# Split dataset into training set and test set
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create a Linear Regression model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    data = request.get_json()
+
+    # Convert input data to float (or numeric) values
+    median_income = float(data['medianIncome'])
+    avg_rooms = float(data['avgRooms'])
+
+    # Combine input features into a numpy array
+    input_features = np.array([median_income, avg_rooms]).reshape(1, -1)
+
+    # Make prediction
+    prediction = model.predict(input_features)
+
+    # Return the prediction as a JSON response
+    return jsonify({'prediction': prediction[0] * 100})
+# -------------------------------------docker metrics--------------------------------------------------------------------
+@app.route('/docker-metrics', methods=['GET'])
+def get_docker_metrics():
+    metrics = {
+        "memory_used": random.uniform(200, 500),  # In MB
+        "status": "running",  # could be "stopped", "paused", etc.
+        "storage": random.uniform(20, 100),  # In GB
+    }
+    return jsonify(metrics)
 # ------------------------------------------------------DOCKER----------------------------------------------
 @app.route("/pull", methods=['post'])
 def pull():

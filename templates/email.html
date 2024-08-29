@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsApp Message</title>
+    <title>Email Form</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -32,6 +32,7 @@
             color: #555;
             text-align: left;
         }
+        input[type="email"],
         input[type="text"],
         textarea {
             width: calc(100% - 20px);
@@ -59,13 +60,15 @@
 </head>
 <body>
     <div class="container">
-        <h2>Send WhatsApp Message</h2>
-        <form action="/wth" method="POST">
+        <h2>Send Email</h2>
+        <form action="/send_email" method="POST">
             <label for="to">To:</label>
-            <input type="text" id="to" name="to" required>
-            <label for="body">Message:</label>
+            <input type="email" id="to" name="to" required>
+            <label for="subject">Subject:</label>
+            <input type="text" id="subject" name="subject" required>
+            <label for="body">Body:</label>
             <textarea id="body" name="body" rows="10" cols="30" required></textarea>
-            <input type="submit" value="Send WhatsApp">
+            <input type="submit" value="Send Email">
         </form>
     </div>
 </body>
