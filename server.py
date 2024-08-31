@@ -320,7 +320,7 @@ def special_filters(image, filter_type):
     image = Image.fromarray(image)
     if filter_type == 'sunglasses':
         # Ensure the path to the sunglasses image is correct
-        return np.array(overlay_image(image, 'sunglasses.png', (50, 50)))
+        return np.array(overlay_image(image, '/pics/sunglasses.png', (50, 50)))
     elif filter_type == 'stars':
         img_draw = ImageDraw.Draw(image)
         for _ in range(100):  # Number of stars

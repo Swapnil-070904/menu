@@ -8,13 +8,13 @@
     <link rel="stylesheet" href="/static/style.css">
     
 </head>
-<body class=" text-white flex flex-col  min-h-screen p-4">
+<body class="flex flex-col  min-h-screen p-4">
 
     <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="#home" >Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="portfolio.html">Projects</a></li>
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="projects.html">Projects</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
@@ -27,88 +27,7 @@
         </div>
     </div>
 
-<div  id="about" class="container">
-    <span id="aboutme">About Me</span>
-    <hr class="vertical-line">
-    <p>Hello! I'm Swapnil, currently in my third year of pursuing a BTech at United University, with a major focus on computer science. My passion for technology has driven me to delve deep into the fields of DevOps and cybersecurity, where I enjoy the challenge of creating efficient systems and ensuring robust security.
-<br><br>
-    I am highly motivated by the rapidly evolving tech landscape, which fuels my curiosity and desire to stay ahead of the curve. Whether it's mastering the latest tools in DevOps, understanding complex cybersecurity protocols, or exploring new programming languages, I'm always eager to learn and grow.</p>
 
-
-</div>
-
-
-
-
-
-
-
-
-
-    <form action="/handle_action" method="POST">
-        <button type="submit" name="action" value="email" style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Email</button>
-
-	<button type="submit" name="action" value="call"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Call</button>
-
-	<button type="submit" name="action" value="Sms"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Sms</button>
-
-	<!-- <button type="submit" name="action" value="docker"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Docker</button> -->
-    
-	<button type="submit" name="action" value="wth"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Whatsapp Mssg</button>
-
-	<button type="submit" name="action" value="geocord"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Geo Coordinates</button>
-	
-    <button type="submit" name="action" value="tta"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Text to Audio</button>
-    
-    <button type="submit" name="action" value="data"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Data Process</button>
-    
-    <button type="submit" name="action" value="random_image"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Random Image</button>
-    
-    <button type="submit" name="action" value="image_filter"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Image Filter</button>
-    
-    <button type="submit" name="action" value="live"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Live Stream</button>
-    
-    <button type="submit" name="action" value="clickpic"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Click Picture</button>
-    
-    <button type="submit" name="action" value="special_filters"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">special_filters</button>
-    
-    <button type="submit" name="action" value="ml_model"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">ML Model</button>
-    
-    <button type="submit" name="action" value="docker_metrics"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Docker Metrics</button>
-    <button type="submit" name="action" value="micaccess"style="background-color: transparent; color: whitesmoke; padding: 10px 20px; margin: 5px; border: 3px solid green; border-radius: 3px; cursor: pointer; ">Mic Access</button>
-
-    </form>
-
-    <script>
-        function sendEmail() {
-            fetch('/send_email', {
-                method: 'POST',
-            }).then(response => response.text()).then(data => alert(data));
-        }
-
-        function call() {
-            fetch('/call', {
-                method: 'POST',
-            }).then(response => response.text()).then(data => alert(data));
-        }
-	 function Sms() {
-            fetch('/Sms', {
-                method: 'POST',
-            }).then(response => response.text()).then(data => alert(data));
-        }
-	// function docker() {
-    //         fetch('/docker', {
-    //             method: 'POST',
-    //         }).then(response => response.text()).then(data => alert(data));
-    //     }
-	 function wth() {
-            fetch('/wth', {
-                method: 'POST',
-            }).then(response => response.text()).then(data => alert(data));
-        }
-
-
-    </script>
 </body>
 </html>
 

@@ -4,14 +4,14 @@
     overflow-x: hidden;
     margin: 0;
     padding: 0;
-    background-color: #2f3542;
+    background-image: url(/pics/bg.jpg);
     color: #fff;
 }
 .container{
     height: 600px;
     width: 100%;
     margin-bottom: 60px;
-    border: 1px solid wheat;
+    /* border: 1px solid wheat; */
 }
 #about{
     height: 600px;
@@ -40,7 +40,7 @@
     font-family: 'Great Vibes', cursive;
 }
 p{
-    border: 1px solid white;
+    /* border: 1px solid white; */
     height: auto;
     width: 50%;
     position: relative;
@@ -64,9 +64,7 @@ p{
 
 .navmenu {
     padding: 0;
-    transform: translate(40%);
     position: fixed;
-    width: 100%;
     font-family: 'Poppins', sans-serif;
 }
 
@@ -93,7 +91,7 @@ p{
 
 .navmenu a,
 .navmenu a:focus {
-    color:whitesmoke;
+    color:crimson;
     font-size: 20px;
     padding: 0 2px;
     font-family: 'Lato', sans-serif;
@@ -136,7 +134,7 @@ p{
 .navmenu li:hover>a,
 .navmenu .active,
 .navmenu .active:focus {
-    color: whitesmoke;
+    color: crimson;
 }
 
 .animated-text{
@@ -161,7 +159,7 @@ p{
     position: absolute;
     width: calc(100% + 8px);
     height: 100%;
-    background-color: #2f3542;
+    background-color: black;
     border-left: 2px solid #ff7f50;
     right: -8px;
     animation: cursor .8s infinite, typing 20s steps(14) infinite;
@@ -274,3 +272,89 @@ width: 25px;
 .navmenu .active:focus {
 color: whitesmoke;
 }
+    .button-container {
+        display: inline-block;
+        text-align: center;
+        margin: 5px;
+    }
+
+    .custom-button {
+        background-color: transparent;
+        color: whitesmoke;
+        padding: 50px; /* Increase padding to make space for the background image */
+        border: 3px solid green;
+        border-radius: 3px;
+        cursor: pointer;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .email-button {
+        background-image: url('/pics/email.png'); /* Replace with your email background image URL */
+    }
+
+    .call-button {
+        background-image: url('/pics/call.jpg'); /* Replace with actual image URL */
+    }
+
+    .sms-button {
+        background-image: url('/pics/sms.jpg'); /* Replace with actual image URL */
+    }
+
+    .whatsapp-button {
+        background-image: url('/pics/wth.jpg'); /* Replace with actual image URL */
+    }
+
+    .geo-button {
+        background-image: url('/pics/geopy.jpg'); /* Replace with actual image URL */
+    }
+
+    .text-audio-button {
+        background-image: url('/pics/tts.jpg'); /* Replace with actual image URL */
+    }
+
+    .data-button {
+        background-image: url('/pics/data-p.jpg'); /* Replace with actual image URL */
+    }
+
+    .random-image-button {
+        background-image: url('/pics/random.jpg'); /* Replace with actual image URL */
+    }
+
+    .image-filter-button {
+        background-image: url('/pics/filter.jpg'); /* Replace with actual image URL */
+    }
+
+    .live-stream-button {
+        background-image: url('/pics/stream.jpg'); /* Replace with actual image URL */
+    }
+
+    .click-picture-button {
+        background-image: url('/pics/cam.jpg'); /* Replace with actual image URL */
+    }
+
+    .special-filters-button {
+        background-image: url('/pics/sfilter.jpg'); /* Replace with actual image URL */
+    }
+
+    .ml-model-button {
+        background-image: url('/pics/mlmodel.jpg'); /* Replace with actual image URL */
+    }
+
+    .docker-metrics-button {
+        background-image: url('/pics/docker.jpg'); /* Replace with actual image URL */
+    }
+
+    .mic-access-button {
+        background-image: url('/pics/spt.jpg'); /* Replace with actual image URL */
+    }
+
+    .button-label {
+        margin-top: 10px;
+        color: whitesmoke;
+    }
+
+    .button-label {
+        margin-top: 10px;
+        color: whitesmoke;
+    }
