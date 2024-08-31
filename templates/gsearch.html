@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .search-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        .search-form h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .search-form input, .search-form button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .search-form button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .search-form button:hover {
+            background-color: #0056b3;
+        }
+        .search-results {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #333;
+        }
+        .search-results ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .search-results li {
+            margin-bottom: 5px;
+        }
+        .search-results a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .search-results a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="search-form">
+    <h2>Google Search</h2>
+    <form id="searchForm">
+        <input type="text" id="query" name="query" placeholder="Search here" required>
+        <button type="submit">Search</button>
+    </form>
+    <div class="search-results" id="results"></div>
+</div>
+
+<script>
+    document.getElementById('searchForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form from refreshing the page
+
+        const formData = new FormData(this);
+        const data = new URLSearchParams(formData);
+
+        fetch('/get_top5_results', {
+            method: 'POST',
+            body: data,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                document.getElementById('results').innerHTML = 'Error: ' + data.error;
+            } else {
+                const resultsList = document.createElement('ul');
+                data.results.forEach(result => {
+                    const listItem = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.href = result;
+                    link.textContent = result;
+                    link.target = '_blank';
+                    listItem.appendChild(link);
+                    resultsList.appendChild(listItem);
+                });
+                document.getElementById('results').innerHTML = '';
+                document.getElementById('results').appendChild(resultsList);
+            }
+        })
+        .catch(error => {
+            document.getElementById('results').textContent = 'Error: ' + error;
+        });
+    });
+</script>
+
+</body>
+</html>

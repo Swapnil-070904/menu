@@ -10,9 +10,9 @@
 <body class="flex flex-col  min-h-screen p-4">
     <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="index.html" >Home</a></li>
-          <li><a href="about.html" class="active">About</a></li>
-          <li><a href="projects.html">Projects</a></li>
+          <li><a href="{{url_for('index')}}" class="active">Home</a></li>
+          <li><a href="{{url_for('about')}}">About</a></li>
+          <li><a href="{{url_for('projects')}}">Projects</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>

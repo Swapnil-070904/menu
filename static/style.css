@@ -4,7 +4,7 @@
     overflow-x: hidden;
     margin: 0;
     padding: 0;
-    background-image: url(/pics/bg.jpg);
+    background-image: url(/static/images/bg.jpg);
     color: #fff;
 }
 .container{
@@ -39,6 +39,15 @@
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     font-family: 'Great Vibes', cursive;
 }
+#projects{
+    font-size:50px;
+    font-weight:400;
+    color: #fff;
+    margin-left: 35%;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    font-family: 'Great Vibes', cursive;
+}
+
 p{
     /* border: 1px solid white; */
     height: auto;
@@ -91,8 +100,8 @@ p{
 
 .navmenu a,
 .navmenu a:focus {
-    color:crimson;
-    font-size: 20px;
+    color:rgb(20, 23, 220);
+    font-size: 15px;
     padding: 0 2px;
     font-family: 'Lato', sans-serif;
     font-weight: 400;
@@ -106,7 +115,7 @@ p{
 
 .navmenu a i,
 .navmenu a:focus i {
-    font-size: 12px;
+    font-size: 15px;
     line-height: 0;
     margin-left: 5px;
     transition: 0.3s;
@@ -118,7 +127,7 @@ p{
     height: 2px;
     bottom: -6px;
     left: 0;
-    background-color: crimson;
+    background-color: rgb(20, 220, 190);
     visibility: hidden;
     width: 0px;
     transition: all 0.3s ease-in-out 0s;
@@ -134,7 +143,7 @@ p{
 .navmenu li:hover>a,
 .navmenu .active,
 .navmenu .active:focus {
-    color: crimson;
+    color: rgb(10, 9, 9);
 }
 
 .animated-text{
@@ -152,6 +161,8 @@ p{
     content: "CS Enthusiast";
     color: #ff7f50;
     animation: words 20s infinite;
+    text-decoration: underline;
+    text-decoration-color: cyan;
 }
 
 .animated-text span::after{
@@ -272,86 +283,91 @@ width: 25px;
 .navmenu .active:focus {
 color: whitesmoke;
 }
+.projects{
+    position: relative;
+    top: 60px;
+    align-self: center;
+    width: 80%;
+    height: 100vh;
+    border: 2px solid green;
+}
     .button-container {
         display: inline-block;
         text-align: center;
         margin: 5px;
+        
     }
 
     .custom-button {
-        background-color: transparent;
-        color: whitesmoke;
-        padding: 50px; /* Increase padding to make space for the background image */
-        border: 3px solid green;
+        padding: 60px; /* Increase padding to make space for the background image */
         border-radius: 3px;
         cursor: pointer;
         background-size: cover;
         background-position: center;
+
     }
 
     .email-button {
-        background-image: url('/pics/email.png'); /* Replace with your email background image URL */
+        background-image: url('/static/images/email.png'); /* Replace with your email background image URL */
     }
 
     .call-button {
-        background-image: url('/pics/call.jpg'); /* Replace with actual image URL */
+        background-image: url('/static/images/call.jpg');
     }
 
     .sms-button {
-        background-image: url('/pics/sms.jpg'); /* Replace with actual image URL */
+        background-image: url('/static/images/sms.jpg'); /* Replace with actual image URL */
     }
 
     .whatsapp-button {
-        background-image: url('/pics/wth.jpg'); /* Replace with actual image URL */
+        background-image: url('/static/images/wth.jpg'); /* Replace with actual image URL */
     }
 
     .geo-button {
-        background-image: url('/pics/geopy.jpg'); /* Replace with actual image URL */
+        background-image: url('/static/images/geopy.jpg'); /* Replace with actual image URL */
     }
 
     .text-audio-button {
-        background-image: url('/pics/tts.jpg'); /* Replace with actual image URL */
+        background-image: url('/static/images/tts.jpg'); /* Replace with actual image URL */
     }
 
     .data-button {
-        background-image: url('/pics/data-p.jpg'); /* Replace with actual image URL */
+        background-image: url('/static/images/data-p.jpg'); /* Replace with actual image URL */
     }
 
     .random-image-button {
-        background-image: url('/pics/random.jpg'); /* Replace with actual image URL */
+        background-image: url('/static/images/random.jpg'); /* Replace with actual image URL */
     }
 
     .image-filter-button {
-        background-image: url('/pics/filter.jpg'); /* Replace with actual image URL */
+        background-image: url('/static/images/filter.jpg'); /* Replace with actual image URL */
     }
 
     .live-stream-button {
-        background-image: url('/pics/stream.jpg'); /* Replace with actual image URL */
+        background-image: url('/static/images/stream.jpg'); /* Replace with actual image URL */
     }
 
     .click-picture-button {
-        background-image: url('/pics/cam.jpg'); /* Replace with actual image URL */
+        background-image: url('/static/images/cam.jpg'); /* Replace with actual image URL */
     }
 
     .special-filters-button {
-        background-image: url('/pics/sfilter.jpg'); /* Replace with actual image URL */
+        background-image: url('/static/images/sfilter.jpg'); /* Replace with actual image URL */
     }
 
     .ml-model-button {
-        background-image: url('/pics/mlmodel.jpg'); /* Replace with actual image URL */
+        background-image: url('/static/images/mlmodel.jpg'); /* Replace with actual image URL */
     }
 
     .docker-metrics-button {
-        background-image: url('/pics/docker.jpg'); /* Replace with actual image URL */
+        background-image: url('/static/images/docker.jpg'); /* Replace with actual image URL */
     }
 
     .mic-access-button {
-        background-image: url('/pics/spt.jpg'); /* Replace with actual image URL */
+        background-image: url('/static/images/spt.jpg'); /* Replace with actual image URL */
     }
-
-    .button-label {
-        margin-top: 10px;
-        color: whitesmoke;
+    .gsearch {
+        background-image: url('/static/images/google.jpg'); /* Replace with actual image URL */
     }
 
     .button-label {

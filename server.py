@@ -10,6 +10,7 @@ from flask import Flask, request, render_template,send_from_directory, flash,jso
 from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
+from googlesearch import search
 
 app = Flask(__name__)
 app.secret_key ='231d61aacdc033ea781601c07e4415dd'
@@ -26,6 +27,15 @@ number = '+15739282798'
 def index():
     return render_template('index.html')
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/projects')
+def projects():
+    return render_template('projects.html')
+
+
 @app.route('/handle_action', methods=['POST'])
 def handle_action():
     action = request.form.get('action')
@@ -36,8 +46,8 @@ def handle_action():
         return render_template('call.html')
     elif action == 'Sms':
         return render_template('Sms.html')
-    elif action == 'docker':
-        return render_template('docker.html')
+    elif action == 'gsearch':
+        return render_template('gsearch.html')
     elif action == 'wth':
         return render_template('wth.html')
     elif action == 'geocord':
@@ -64,6 +74,20 @@ def handle_action():
         return render_template('micaccess.html')
     else:
         return render_template('index.html')
+# -----------------------------------------------------G_SEARCH------------------------------------------------------------------
+@app.route('/get_top5_results', methods=['POST'])
+def get_top5_results():
+    query = request.form.get('query')
+    
+    # Get top 5 Google search results
+    search_results = []
+    try:
+        for result in search(query, num_results=5):
+            search_results.append(result)
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
+    return jsonify({'results': search_results})
 # -----------------------------------------------------mail---------------------------------------------------------------
 @app.route('/send_email', methods=['POST'])
 def send_email():

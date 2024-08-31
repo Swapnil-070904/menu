@@ -10,13 +10,14 @@
 <body class="flex flex-col  min-h-screen p-4">
     <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="index.html" >Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="projects.html" class="active">Projects</a></li>
+          <li><a href="{{url_for('index')}}" class="active">Home</a></li>
+          <li><a href="{{url_for('about')}}">About</a></li>
+          <li><a href="{{url_for('projects')}}">Projects</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
-    <div id="project" class="projects">
+      <div class="projects">
+        <span id="projects">MY PROJECTS</span>
 
     
         <form action="/handle_action" method="POST">
@@ -28,6 +29,11 @@
             <div class="button-container">
                 <button type="submit" name="action" value="call" class="custom-button call-button"></button>
                 <div class="button-label">Call</div>
+            </div>
+            
+            <div class="button-container">
+                <button type="submit" name="action" value="gsearch" class="custom-button gsearch"></button>
+                <div class="button-label">Google Search</div>
             </div>
             
             <div class="button-container">
