@@ -3,7 +3,7 @@ from gtts import gTTS
 import pandas as pd,numpy as np
 import io,os,random,cv2
 from PIL import Image, ImageDraw,ImageFilter,ImageEnhance
-import smtplib,subprocess,re
+import smtplib
 from twilio.rest import Client
 from geopy.geocoders import Nominatim 
 from flask import Flask, request, render_template,send_from_directory, flash,jsonify,send_file,Response
