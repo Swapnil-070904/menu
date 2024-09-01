@@ -6,22 +6,29 @@
     <title>Text to Speech</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Montserrat', sans-serif;
+            box-sizing: border-box;
+            overflow-x: hidden;
             margin: 0;
             padding: 0;
+            background-image: url(/static/images/bg.jpg);
+            background-position: center;
+            background-size: cover;
+            color: #fff;
         }
         .container {
             width: 80%;
-            margin: 0 auto;
             padding: 20px;
-            background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            margin-top: 20px;
-        }
+            backdrop-filter: blur(2px) saturate(200%);
+            -webkit-backdrop-filter: blur(2px) saturate(200%);
+            background-color: rgba(74, 74, 74, 0.25);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.125);
+                }
         h1 {
-            color: #333;
+            color: #ffffffcd;
         }
         form {
             display: flex;
@@ -34,13 +41,13 @@
             border: 1px solid #ddd;
         }
         button {
-            background-color: #007bff;
+            background-color: #bd6527;
             color: #fff;
             border: none;
             cursor: pointer;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #ff6a00;
         }
         #audioPlayer {
             margin-top: 20px;

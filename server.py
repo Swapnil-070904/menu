@@ -6,7 +6,7 @@ from PIL import Image, ImageDraw,ImageFilter,ImageEnhance
 import smtplib,subprocess,re
 from twilio.rest import Client
 from geopy.geocoders import Nominatim 
-from flask import Flask, request, render_template,send_from_directory, flash,jsonify,send_file
+from flask import Flask, request, render_template,send_from_directory, flash,jsonify,send_file,Response
 from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
@@ -72,6 +72,8 @@ def handle_action():
         return render_template('docker_metrics.html')
     elif action == 'micaccess':
         return render_template('micaccess.html')
+    elif action == 'ipcam':
+        return render_template('ipcam.html')
     else:
         return render_template('index.html')
 # -----------------------------------------------------G_SEARCH------------------------------------------------------------------
@@ -88,6 +90,45 @@ def get_top5_results():
         return jsonify({'error': str(e)})
 
     return jsonify({'results': search_results})
+# -----------------------------------------ipcam----------------------------------------------------------------------------------
+camera=None
+def generate_frames():
+    global camera
+    while camera.isOpened():
+        success, frame = camera.read()
+        if not success:
+            break
+        else:
+            # Encode the frame in JPEG format
+            ret, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()
+            # Yield the output frame in byte format
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
+@app.route('/video_feed')
+def video_feed():
+    return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+@app.route('/start_stream', methods=['POST'])
+def start_stream():
+    global camera
+    ip_address = request.form.get('ip_address')
+    if ip_address:
+        stream_url = f"http://{ip_address}/video"
+        camera = cv2.VideoCapture(stream_url)
+        if not camera.isOpened():
+            return "Error: Could not open video stream", 500
+        return "Stream started", 200
+    return "IP address is required", 400
+
+@app.route('/stop_stream', methods=['POST'])
+def stop_stream():
+    global camera
+    if camera:
+        camera.release()
+        return "Stream stopped", 200
+    return "No stream to stop", 400
 # -----------------------------------------------------mail---------------------------------------------------------------
 @app.route('/send_email', methods=['POST'])
 def send_email():
@@ -157,7 +198,7 @@ def wth():
     to='whatsapp:+91'+request.form['to']
 )
     return (f"Message sent with SID: {message.sid}")
-# ----------------------------------------------------------cords--------------------------------------------------------------------
+# ----------------------------------------------------------geocords--------------------------------------------------------------------
 @app.route('/get_geo_coordinates', methods=['POST'])
 def get_geo_coordinates():
     address = request.form.get('address')

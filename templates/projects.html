@@ -1,138 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="flex flex-col  min-h-screen p-4">
+
+<body class="flex flex-col min-h-screen p-4 bg-gray-800">
     <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="{{url_for('index')}}" class="active">Home</a></li>
-          <li><a href="{{url_for('about')}}">About</a></li>
-          <li><a href="{{url_for('projects')}}">Projects</a></li>
-          <li><a href="contact.html">Contact</a></li>
+            <li><a href="{{url_for('index')}}">Home</a></li>
+            <li><a href="{{url_for('about')}}">About</a></li>
+            <li><a href="{{url_for('projects')}}" class="active">Projects</a></li>
         </ul>
-      </nav>
-      <div class="projects">
+    </nav>
+
+    <div class="projects mt-12">
         <span id="projects">MY PROJECTS</span>
 
-    
         <form action="/handle_action" method="POST">
-            <div class="button-container">
-                <button type="submit" name="action" value="email" class="custom-button email-button"></button>
-                <div class="button-label">Email</div>
+            <div class="button-grid">
+                
+                <div class="button-container">
+                    <button type="submit" name="action" value="email" class="custom-button email-button"></button>
+                    <div class="button-label">Email</div>
+                </div>
+                <div class="button-container">
+                    <button type="submit" name="action" value="call" class="custom-button call-button"></button>
+                    <div class="button-label">Call</div>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" name="action" value="gsearch" class="custom-button gsearch"></button>
+                    <div class="button-label">Google Search</div>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" name="action" value="Sms" class="custom-button sms-button"></button>
+                    <div class="button-label">SMS</div>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" name="action" value="wth" class="custom-button whatsapp-button"></button>
+                    <div class="button-label">Whatsapp Mssg</div>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" name="action" value="geocord" class="custom-button geo-button"></button>
+                    <div class="button-label">Geo Coordinates</div>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" name="action" value="tta" class="custom-button text-audio-button"></button>
+                    <div class="button-label">Text to Audio</div>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" name="action" value="data" class="custom-button data-button"></button>
+                    <div class="button-label">Data Process</div>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" name="action" value="random_image" class="custom-button random-image-button"></button>
+                    <div class="button-label">Random Image</div>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" name="action" value="image_filter" class="custom-button image-filter-button"></button>
+                    <div class="button-label">Image Filter</div>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" name="action" value="live" class="custom-button live-stream-button"></button>
+                    <div class="button-label">Live Stream</div>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" name="action" value="clickpic" class="custom-button click-picture-button"></button>
+                    <div class="button-label">Click Picture</div>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" name="action" value="special_filters" class="custom-button special-filters-button"></button>
+                    <div class="button-label">Special Filters</div>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" name="action" value="ml_model" class="custom-button ml-model-button"></button>
+                    <div class="button-label">ML Model</div>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" name="action" value="docker_metrics" class="custom-button docker-metrics-button"></button>
+                    <div class="button-label">Docker Metrics</div>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" name="action" value="micaccess" class="custom-button mic-access-button"></button>
+                    <div class="button-label">Mic Access</div>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" name="action" value="ipcam" class="custom-button webcam"></button>
+                    <div class="button-label">IP WebCam</div>
+                </div>
             </div>
-            
-            <div class="button-container">
-                <button type="submit" name="action" value="call" class="custom-button call-button"></button>
-                <div class="button-label">Call</div>
-            </div>
-            
-            <div class="button-container">
-                <button type="submit" name="action" value="gsearch" class="custom-button gsearch"></button>
-                <div class="button-label">Google Search</div>
-            </div>
-            
-            <div class="button-container">
-                <button type="submit" name="action" value="Sms" class="custom-button sms-button"></button>
-                <div class="button-label">SMS</div>
-            </div>
-            
-            <div class="button-container">
-                <button type="submit" name="action" value="wth" class="custom-button whatsapp-button"></button>
-                <div class="button-label">Whatsapp Mssg</div>
-            </div>
-            
-            <div class="button-container">
-                <button type="submit" name="action" value="geocord" class="custom-button geo-button"></button>
-                <div class="button-label">Geo Coordinates</div>
-            </div>
-            
-            <div class="button-container">
-                <button type="submit" name="action" value="tta" class="custom-button text-audio-button"></button>
-                <div class="button-label">Text to Audio</div>
-            </div>
-            
-            <div class="button-container">
-                <button type="submit" name="action" value="data" class="custom-button data-button"></button>
-                <div class="button-label">Data Process</div>
-            </div>
-            
-            <div class="button-container">
-                <button type="submit" name="action" value="random_image" class="custom-button random-image-button"></button>
-                <div class="button-label">Random Image</div>
-            </div>
-            
-            <div class="button-container">
-                <button type="submit" name="action" value="image_filter" class="custom-button image-filter-button"></button>
-                <div class="button-label">Image Filter</div>
-            </div>
-            
-            <div class="button-container">
-                <button type="submit" name="action" value="live" class="custom-button live-stream-button"></button>
-                <div class="button-label">Live Stream</div>
-            </div>
-            
-            <div class="button-container">
-                <button type="submit" name="action" value="clickpic" class="custom-button click-picture-button"></button>
-                <div class="button-label">Click Picture</div>
-            </div>
-            
-            <div class="button-container">
-                <button type="submit" name="action" value="special_filters" class="custom-button special-filters-button"></button>
-                <div class="button-label">Special Filters</div>
-            </div>
-            
-            <div class="button-container">
-                <button type="submit" name="action" value="ml_model" class="custom-button ml-model-button"></button>
-                <div class="button-label">ML Model</div>
-            </div>
-            
-            <div class="button-container">
-                <button type="submit" name="action" value="docker_metrics" class="custom-button docker-metrics-button"></button>
-                <div class="button-label">Docker Metrics</div>
-            </div>
-            
-            <div class="button-container">
-                <button type="submit" name="action" value="micaccess" class="custom-button mic-access-button"></button>
-                <div class="button-label">Mic Access</div>
-            </div>
-            
         </form>
     </div>
-        
-        <script>
-            function sendEmail() {
-                fetch('/send_email', {
-                    method: 'POST',
-                }).then(response => response.text()).then(data => alert(data));
-            }
-            
-            function call() {
-                fetch('/call', {
-                    method: 'POST',
-                }).then(response => response.text()).then(data => alert(data));
-            }
-         function Sms() {
-                fetch('/Sms', {
-                    method: 'POST',
-                }).then(response => response.text()).then(data => alert(data));
-            }
-        // function docker() {
-        //         fetch('/docker', {
-        //             method: 'POST',
-        //         }).then(response => response.text()).then(data => alert(data));
-        //     }
-         function wth() {
-                fetch('/wth', {
-                    method: 'POST',
-                }).then(response => response.text()).then(data => alert(data));
-            }
-    
-    
-        </script>
+
+    <script>
+        function sendEmail() {
+            fetch('/send_email', {
+                method: 'POST',
+            }).then(response => response.text()).then(data => alert(data));
+        }
+
+        function call() {
+            fetch('/call', {
+                method: 'POST',
+            }).then(response => response.text()).then(data => alert(data));
+        }
+
+        function Sms() {
+            fetch('/Sms', {
+                method: 'POST',
+            }).then(response => response.text()).then(data => alert(data));
+        }
+
+        function wth() {
+            fetch('/wth', {
+                method: 'POST',
+            }).then(response => response.text()).then(data => alert(data));
+        }
+    </script>
 </body>
+
 </html>

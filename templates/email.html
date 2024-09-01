@@ -6,30 +6,41 @@
     <title>Email Form</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, rgba(0,0,0,0.1), rgba(0,0,0,0.2));
+    background: linear-gradient(135deg, rgba(0,0,0,0.1), rgba(0,0,0,0.2));
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            font-family: 'Montserrat', sans-serif;
+            box-sizing: border-box;
+            overflow-x: hidden;
             margin: 0;
+            padding: 0;
+            background-image: url(/static/images/bg.jpg);
+            background-position: center;
+            background-size: cover;
+            color: #fff;
         }
         .container {
-            background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
             width: 400px;
             text-align: center;
+            backdrop-filter: blur(2px) saturate(200%);
+            -webkit-backdrop-filter: blur(2px) saturate(200%);
+            background-color: rgba(74, 74, 74, 0.25);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.125);
         }
         h2 {
-            color: #333;
+            color: #ffffffe5;
             margin-bottom: 20px;
         }
         label {
             display: block;
             margin-bottom: 8px;
-            color: #555;
+            color: rgb(255, 255, 255);
             text-align: left;
         }
         input[type="email"],
@@ -37,15 +48,22 @@
         textarea {
             width: calc(100% - 20px);
             padding: 10px;
+            background-color: rgba(255, 255, 255, 0.825);
             border: 1px solid #ddd;
             border-radius: 4px;
             margin-bottom: 20px;
         }
-        textarea {
+        input::placeholder {
+    color: black;
+}
+textarea::placeholder {
+    color:black;
+}
+       textarea {
             resize: vertical;
         }
         input[type="submit"] {
-            background-color: #007BFF;
+            background-color: #c7641e;
             color: #fff;
             border: none;
             padding: 10px 15px;
@@ -54,7 +72,7 @@
             font-size: 16px;
         }
         input[type="submit"]:hover {
-            background-color: #0056b3;
+            background-color: #ff6a00;
         }
     </style>
 </head>
@@ -63,11 +81,11 @@
         <h2>Send Email</h2>
         <form action="/send_email" method="POST">
             <label for="to">To:</label>
-            <input type="email" id="to" name="to" required>
+            <input type="email" id="to" name="to" placeholder="Receiver mail" required>
             <label for="subject">Subject:</label>
-            <input type="text" id="subject" name="subject" required>
+            <input type="text" id="subject" name="subject" placeholder="Subject" required>
             <label for="body">Body:</label>
-            <textarea id="body" name="body" rows="10" cols="30" required></textarea>
+            <textarea id="body" name="body" rows="10" cols="30" placeholder="Message..." required></textarea>
             <input type="submit" value="Send Email">
         </form>
     </div>

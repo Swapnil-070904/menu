@@ -6,16 +6,26 @@
     <title>Google Search</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            font-family: 'Montserrat', sans-serif;
+            box-sizing: border-box;
+            overflow-x: hidden;
             margin: 0;
+            padding: 0;
+            background-image: url(/static/images/bg.jpg);
+            background-position: center;
+            background-size: cover;
+            color: #fff;
         }
         .search-form {
-            background-color: #fff;
+            backdrop-filter: blur(2px) saturate(200%);
+            -webkit-backdrop-filter: blur(2px) saturate(200%);
+            background-color: rgba(74, 74, 74, 0.25);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.125);
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -23,7 +33,7 @@
         }
         .search-form h2 {
             margin-bottom: 20px;
-            color: #333;
+            color: #ffffffe6;
         }
         .search-form input, .search-form button {
             width: 100%;
@@ -34,13 +44,13 @@
             font-size: 16px;
         }
         .search-form button {
-            background-color: #007bff;
+            background-color: #b66327;
             color: #fff;
             border: none;
             cursor: pointer;
         }
         .search-form button:hover {
-            background-color: #0056b3;
+            background-color: #ff6a00;
         }
         .search-results {
             margin-top: 10px;

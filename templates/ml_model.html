@@ -6,8 +6,15 @@
     <title>California Housing Price Prediction</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
+            font-family: 'Montserrat', sans-serif;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            background-image: url(/static/images/bg.jpg);
+            background-position: center;
+            background-size: cover;
+            color: #fff;
         }
 
         form {
@@ -15,6 +22,11 @@
             border: 1px solid #ccc;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(2px) saturate(200%);
+            -webkit-backdrop-filter: blur(2px) saturate(200%);
+            background-color: rgba(74, 74, 74, 0.25);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.125);
         }
 
         label {
@@ -30,7 +42,7 @@
         }
 
         input[type="submit"] {
-            background-color: #4CAF50;
+            background-color: #cc651b;
             color: #fff;
             padding: 10px 20px;
             border: none;
@@ -39,7 +51,7 @@
         }
 
         input[type="submit"]:hover {
-            background-color: #3e8e41;
+            background-color: #ff6b02;
         }
 
         #result {

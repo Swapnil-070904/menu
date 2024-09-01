@@ -6,16 +6,26 @@
     <title>SMS Form</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, rgba(0,0,0,0.1), rgba(0,0,0,0.2));
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            font-family: 'Montserrat', sans-serif;
+            box-sizing: border-box;
+            overflow-x: hidden;
             margin: 0;
+            padding: 0;
+            background-image: url(/static/images/bg.jpg);
+            background-position: center;
+            background-size: cover;
+            color: #fff;
         }
         .container {
-            background-color: #fff;
+            backdrop-filter: blur(2px) saturate(200%);
+            -webkit-backdrop-filter: blur(2px) saturate(200%);
+            background-color: rgba(74, 74, 74, 0.25);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.125);
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
@@ -23,24 +33,25 @@
             text-align: center;
         }
         h2 {
-            color: #333;
+            color: #ffffffe7;
             margin-bottom: 20px;
         }
         label {
             display: block;
             margin-bottom: 8px;
-            color: #555;
+            color: #ffffffe0;
             text-align: left;
         }
         input[type="text"] {
             width: calc(100% - 20px);
             padding: 10px;
+            background-color: rgba(255, 255, 255, 0.868);
             border: 1px solid #ddd;
             border-radius: 4px;
             margin-bottom: 20px;
         }
         input[type="submit"] {
-            background-color: #007BFF;
+            background-color: #c06524;
             color: #fff;
             border: none;
             padding: 10px 15px;
@@ -49,7 +60,7 @@
             font-size: 16px;
         }
         input[type="submit"]:hover {
-            background-color: #0056b3;
+            background-color: #ff6a00;
         }
     </style>
 </head>
@@ -58,9 +69,9 @@
         <h2>Send SMS</h2>
         <form action="/Sms" method="POST">
             <label for="to">To:</label>
-            <input type="text" id="to" name="to" required>
+            <input type="text" id="to" name="to" placeholder="Msg to..." required>
             <label for="msg">Message:</label>
-            <input type="text" id="msg" name="msg" placeholder="Enter your message" required>
+            <input type="text" id="msg" name="msg" placeholder="Enter message" required>
             <input type="submit" value="Send">
         </form>
     </div>

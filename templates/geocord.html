@@ -6,16 +6,26 @@
     <title>Find Geo Coordinates</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            font-family: 'Montserrat', sans-serif;
+            box-sizing: border-box;
+            overflow-x: hidden;
             margin: 0;
+            padding: 0;
+            background-image: url(/static/images/bg.jpg);
+            background-position: center;
+            background-size: cover;
+            color: #fff;
         }
         .geo-form {
-            background-color: #fff;
+            backdrop-filter: blur(2px) saturate(200%);
+            -webkit-backdrop-filter: blur(2px) saturate(200%);
+            background-color: rgba(74, 74, 74, 0.25);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.125);
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -23,10 +33,10 @@
         }
         .geo-form h2 {
             margin-bottom: 20px;
-            color: #333;
+            color: #ffffffed;
         }
         .geo-form input, .geo-form button {
-            width: 100%;
+            width: 90%;
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ddd;
@@ -34,13 +44,13 @@
             font-size: 16px;
         }
         .geo-form button {
-            background-color: #007bff;
+            background-color: #c16321;
             color: #fff;
             border: none;
             cursor: pointer;
         }
         .geo-form button:hover {
-            background-color: #0056b3;
+            background-color: #ff6a00;
         }
         .geo-results {
             margin-top: 10px;
@@ -54,7 +64,7 @@
 <div class="geo-form">
     <h2>Get Coordinates</h2>
     <form id="geoForm">
-        <input type="text" id="address" name="address" placeholder="Enter location or address" required>
+        <input type="text" id="address" name="address" placeholder="Enter location" required>
         <button type="submit">Find</button>
     </form>
     <div class="geo-results" id="results"></div>

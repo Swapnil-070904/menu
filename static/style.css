@@ -5,6 +5,8 @@
     margin: 0;
     padding: 0;
     background-image: url(/static/images/bg.jpg);
+    background-position: center;
+    background-size: cover;
     color: #fff;
 }
 .container{
@@ -281,34 +283,65 @@ width: 25px;
 .navmenu li:hover>a,
 .navmenu .active,
 .navmenu .active:focus {
-color: whitesmoke;
+color: crimson;
+font-size: 21px;
 }
-.projects{
-    position: relative;
-    top: 60px;
+.projects {
     align-self: center;
-    width: 80%;
-    height: 100vh;
-    border: 2px solid green;
 }
-    .button-container {
-        display: inline-block;
-        text-align: center;
-        margin: 5px;
-        
-    }
 
-    .custom-button {
-        padding: 60px; /* Increase padding to make space for the background image */
-        border-radius: 3px;
-        cursor: pointer;
-        background-size: cover;
-        background-position: center;
+#projects {
+    font-size: 50px;
+    font-weight: 400;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    font-family: 'Great Vibes', cursive;
+}
 
-    }
+.button-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 15px;
+}
+
+.button-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    /* margin: 10px; */
+}
+
+.custom-button {
+    width: 104%;
+    height: 71%;
+    border: none;
+    border-radius: 12px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.custom-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.button-label {
+    text-align: center;
+    margin-top: 10px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
 
     .email-button {
-        background-image: url('/static/images/email.png'); /* Replace with your email background image URL */
+        background-image: url('/static/images/email.png'); 
+    /* Replace with your email background image URL */
     }
 
     .call-button {
@@ -368,6 +401,9 @@ color: whitesmoke;
     }
     .gsearch {
         background-image: url('/static/images/google.jpg'); /* Replace with actual image URL */
+    }
+    .webcam {
+        background-image: url('/static/images/ipcam.jpg'); /* Replace with actual image URL */
     }
 
     .button-label {
