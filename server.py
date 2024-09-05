@@ -115,7 +115,7 @@ def start_stream():
     global camera
     ip_address = request.form.get('ip_address')
     if ip_address:
-        stream_url = f"https://{ip_address}/video"
+        stream_url = f"http://{ip_address}/video"
         camera = cv2.VideoCapture(stream_url)
         if not camera.isOpened():
             return "Error: Could not open video stream", 500
