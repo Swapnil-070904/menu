@@ -115,7 +115,7 @@ def start_stream():
     global camera
     ip_address = request.form.get('ip_address')
     if ip_address:
-        stream_url = f"http://{ip_address}/video"
+        stream_url = f"https://{ip_address}/video"
         camera = cv2.VideoCapture(stream_url)
         if not camera.isOpened():
             return "Error: Could not open video stream", 500
@@ -152,9 +152,9 @@ Subject: {subject}
         server.quit()
         return('Email sent successfully!')
     except Exception as e:
-        flash(f'Failed to send email: {e}')
+        return(f'Failed to send email: {e}')
     
-    return render_template('form.html')
+    return render_template('email.html')
 # -------------------------------------------------------call-----------------------------------------------------------------
 @app.route("/call", methods=['post'])
 def call():
@@ -501,28 +501,9 @@ def get_docker_metrics():
         "storage": random.uniform(20, 100),  # In GB
     }
     return jsonify(metrics)
-# ------------------------------------------------------DOCKER----------------------------------------------
-# @app.route("/pull", methods=['post'])
-# def pull():
-#     img=request.form['docker']
-#     cmd=f'docker pull {img}'
-#     status,output = subprocess.getstatusoutput(cmd)
-#     if status == 0:
-#         image_name = output.split('/')[-1]
-#         return image_name
-#     else:
-#         return("image downloded failed")
-
-# @app.route("/images", methods=['post'])
-# def get_images():
-#     status,output = subprocess.getstatusoutput('docker images')
-#     if status == 0:
-#         img = re.sub(r'(SIZE|MB|kB)', r'\1\n', output)
-#         return img
-#     else:
-#         return("image downloded failed")
+# -----------------------------------------------------------------------------------------------------------------------
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0',port=443,ssl_context=('/cert.pem','/key.pem'))
 
                                                                                                        
